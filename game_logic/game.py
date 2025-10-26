@@ -1,36 +1,34 @@
-# from utils.deck import shuffle, create_deck
+from utils.deck import shuffle, create_deck,compare_cards
 
-def create_card(rank:str,suite:str) -> dict:
-    card_dict = {"rank":rank,"suite":suite.upper()}
-    if card_dict["rank"] == "J":
-        card_dict["value"] = 11
-    elif card_dict["rank"] == "Q":
-        card_dict["value"] = 12
-    elif card_dict["rank"] == "K":
-        card_dict["value"] = 13
-    elif card_dict["rank"] == "A":
-        card_dict["value"] = 14
-    else:
-        card_dict["value"] = int(card_dict["rank"])
-    return card_dict
+def create_player(name:str='AI') -> dict:
+    player = {"name":name,"hand":[],"won_pile":[]}
+    return player
+
+def init_game()->dict:
+    p1 = create_player("haim")
+    p2 = create_player()
+    deck_of_card = create_deck()
+    shuffle(deck_of_card)
+    for i in range(26):
+         p1["hand"].append([i])
+         p2["hand"].append([i+26])
+    return {"deck":deck_of_card,"player_1":p1,"player_2":p2}
+
+def play_round(p1:dict,p2:dict):
+        card1 = p1["hand"].pop(0)
+        card2 = p2["hand"].pop(0)
+        result = compare_cards(card1,card2)
+        if card1["value"] > card2["value"]:
+            p1["won_pile"].append(card1)
+            p1["won_pile"].append(card2)
+        elif card2["value"] > card1["value"]:
+            p2["won_pile"].append(card1)
+            p2["won_pile"].append(card2)
+        else:
+            p1["won_pile"].append(card1)
+            p2["won_pile"].append(card2)
 
 
-def compare_cards(p1_card:dict, p2_card:dict) -> str:
-    if p1_card["value"] > p2_card["value"]:
-        return "p1"
-    elif p2_card["value"] > p1_card["value"]:
-        return "p2"
-    else:
-        "WAR"
 
-def create_deck() -> list[dict]:
-    deck_dict = []
-    ranc_dict = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
-    suite_dict =['h','c','d','s']
-    for i in suite_dict:
-        for j in ranc_dict:
-            deck_dict.append(create_card(j,i))
-    return deck_dict
-create_deck()
 
 
