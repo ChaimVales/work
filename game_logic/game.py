@@ -1,7 +1,7 @@
-from utils.deck import shuffle, create_deck
+# from utils.deck import shuffle, create_deck
 
 def create_card(rank:str,suite:str) -> dict:
-    card_dict = {"rank":rank,"suite":suite}
+    card_dict = {"rank":rank,"suite":suite.upper()}
     if card_dict["rank"] == "J":
         card_dict["value"] = 11
     elif card_dict["rank"] == "Q":
@@ -23,6 +23,14 @@ def compare_cards(p1_card:dict, p2_card:dict) -> str:
     else:
         "WAR"
 
-
+def create_deck() -> list[dict]:
+    deck_dict = []
+    ranc_dict = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+    suite_dict =['h','c','d','s']
+    for i in suite_dict:
+        for j in ranc_dict:
+            deck_dict.append(create_card(j,i))
+    return deck_dict
+create_deck()
 
 
